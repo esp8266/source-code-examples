@@ -26,7 +26,7 @@ TARGET		= app
 
 # which modules (subdirectories) of the project to include in compiling
 MODULES		= driver user
-EXTRA_INCDIR    = include /usr/include /usr/include/i386-linux-gnu
+EXTRA_INCDIR    = include /opt/Espressif/include/ 
 
 # libraries used in this project, mainly provided by the SDK
 LIBS		= c gcc hal phy net80211 lwip wpa main

@@ -3,30 +3,40 @@
 #include "gpio.h"
 #include "os_type.h"
 
+#define user_procTaskPrio        0
+#define user_procTaskQueueLen    1
+os_event_t    user_procTaskQueue[user_procTaskQueueLen];
+static void user_procTask(os_event_t *events);
+
+extern uint32_t PIN_OUT;
+#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+
 static volatile os_timer_t some_timer;
-static uint8_t status = 0;
+
 
 void some_timerfunc(void *arg)
 {
     //Do blinky stuff
-    if (status == 0)
+    if (CHECK_BIT(PIN_OUT,2))
     {
-        //Update the global variable with current state
-        status = 1;
-
         //Set GPIO2 to HIGH
         gpio_output_set(BIT2, 0, BIT2, 0);
     }
     else
     {
-        //Update the global variable with current state
-        status = 0;
-
         //Set GPIO2 to LOW 
         gpio_output_set(0, BIT2, BIT2, 0);
     }
 }
 
+//Do nothing function
+static void ICACHE_FLASH_ATTR
+user_procTask(os_event_t *events)
+{
+    os_delay_us(10);
+}
+
+//Init function 
 void ICACHE_FLASH_ATTR
 user_init()
 {
@@ -47,4 +57,7 @@ user_init()
     //1000 is the fire time in ms
     //0 for once and 1 for repeating
     os_timer_arm(&some_timer, 1000, 0);
+    
+    //Start os task
+    system_os_task(user_procTask, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
 }

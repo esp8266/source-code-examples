@@ -5,6 +5,7 @@
 #
 # This make file still needs some work.
 #
+# Updated for SDK 0.9.2
 #
 # Output directors to store intermediate compiled files
 # relative to the project directory

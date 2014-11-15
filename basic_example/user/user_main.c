@@ -14,7 +14,9 @@ static void loop(os_event_t *events);
 static void ICACHE_FLASH_ATTR
 loop(os_event_t *events)
 {
-    os_delay_us(10);
+    os_printf("Hello\n\r");
+    os_delay_us(10000);
+    system_os_post(user_procTaskPrio, 0, 0 );
 }
 
 //Init function 
@@ -24,7 +26,7 @@ user_init()
     char ssid[32] = SSID;
     char password[64] = SSID_PASSWORD;
     struct station_config stationConf;
-    
+
     //Set station mode
     wifi_set_opmode( 0x1 );
 
@@ -35,4 +37,6 @@ user_init()
 
     //Start os task
     system_os_task(loop, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
+
+    system_os_post(user_procTaskPrio, 0, 0 );
 }

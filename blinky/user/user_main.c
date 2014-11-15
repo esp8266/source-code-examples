@@ -2,6 +2,7 @@
 #include "osapi.h"
 #include "gpio.h"
 #include "os_type.h"
+#include "user_config.h"
 
 #define user_procTaskPrio        0
 #define user_procTaskQueueLen    1
@@ -56,7 +57,7 @@ user_init()
     //&some_timer is the pointer
     //1000 is the fire time in ms
     //0 for once and 1 for repeating
-    os_timer_arm(&some_timer, 1000, 0);
+    os_timer_arm(&some_timer, 1000, 1);
     
     //Start os task
     system_os_task(user_procTask, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);

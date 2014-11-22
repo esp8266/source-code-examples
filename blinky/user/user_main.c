@@ -9,24 +9,21 @@
 os_event_t    user_procTaskQueue[user_procTaskQueueLen];
 static void user_procTask(os_event_t *events);
 
-extern uint32_t PIN_OUT;
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
-
 static volatile os_timer_t some_timer;
 
 
 void some_timerfunc(void *arg)
 {
     //Do blinky stuff
-    if (CHECK_BIT(PIN_OUT,2))
+    if (GPIO_REG_READ(GPIO_OUT_ADDRESS) & BIT2)
     {
-        //Set GPIO2 to HIGH
-        gpio_output_set(BIT2, 0, BIT2, 0);
+        //Set GPIO2 to LOW
+        gpio_output_set(0, BIT2, BIT2, 0);
     }
     else
     {
-        //Set GPIO2 to LOW 
-        gpio_output_set(0, BIT2, BIT2, 0);
+        //Set GPIO2 to HIGH
+        gpio_output_set(BIT2, 0, BIT2, 0);
     }
 }
 
@@ -41,6 +38,9 @@ user_procTask(os_event_t *events)
 void ICACHE_FLASH_ATTR
 user_init()
 {
+    // Initialize the GPIO subsystem.
+    gpio_init();
+
     //Set GPIO2 to output mode
     PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_GPIO2);
 

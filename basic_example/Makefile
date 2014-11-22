@@ -26,10 +26,10 @@ TARGET		= app
 
 # which modules (subdirectories) of the project to include in compiling
 MODULES		= driver user
-EXTRA_INCDIR    = include /usr/include /usr/include/i386-linux-gnu
+EXTRA_INCDIR    = include /opt/Espressif/include
 
 # libraries used in this project, mainly provided by the SDK
-LIBS		= c gcc hal phy net80211 lwip wpa main
+LIBS		= c gcc hal phy net80211 lwip wpa upgrade upgrade_ssl main
 
 # compiler flags using during compilation of source files
 CFLAGS		= -Os -g -O2 -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH
@@ -101,7 +101,7 @@ $1/%.o: %.c
 	$(Q) $(CC) $(INCDIR) $(MODULE_INCDIR) $(EXTRA_INCDIR) $(SDK_INCDIR) $(CFLAGS)  -c $$< -o $$@
 endef
 
-.PHONY: all checkdirs clean
+.PHONY: all checkdirs flash clean
 
 all: checkdirs $(TARGET_OUT) $(FW_FILE_1) $(FW_FILE_2)
 
@@ -130,9 +130,7 @@ firmware:
 	$(Q) mkdir -p $@
 
 flash: firmware/0x00000.bin firmware/0x40000.bin
-	-$(ESPTOOL) --port $(ESPPORT) write_flash 0x00000 firmware/0x00000.bin
-	sleep 3
-	-$(ESPTOOL) --port $(ESPPORT) write_flash 0x40000 firmware/0x40000.bin
+	-$(ESPTOOL) --port $(ESPPORT) write_flash 0x00000 firmware/0x00000.bin 0x40000 firmware/0x40000.bin
 
 clean:
 	$(Q) rm -f $(APP_AR)

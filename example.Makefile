@@ -5,7 +5,7 @@
 #
 # This make file still needs some work.
 #
-# Updated for SDK 0.9.2
+# Updated for SDK 0.9.3
 #
 # Output directors to store intermediate compiled files
 # relative to the project directory
@@ -30,7 +30,7 @@ MODULES		= driver user
 EXTRA_INCDIR    = include /opt/Espressif/include
 
 # libraries used in this project, mainly provided by the SDK
-LIBS		= c gcc hal phy net80211 lwip wpa upgrade upgrade_ssl main
+LIBS		= c gcc hal pp phy net80211 lwip wpa main
 
 # compiler flags using during compilation of source files
 CFLAGS		= -Os -g -O2 -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH

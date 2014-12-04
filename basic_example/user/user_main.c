@@ -32,7 +32,7 @@ user_init()
 
     //Set ap settings
     os_memcpy(&stationConf.ssid, ssid, 32);
-    os_memcpy(&stationConf.password, password, 32);
+    os_memcpy(&stationConf.password, password, 64);
     wifi_station_set_config(&stationConf);
 
     //Start os task

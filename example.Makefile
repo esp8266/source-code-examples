@@ -2,6 +2,7 @@
 # Changelog
 # Changed the variables to include the header file directory
 # Added global var for the XTENSA tool root
+# Added variable for esptool bauds. Some modules don't work with default speed.
 #
 # This make file still needs some work.
 #
@@ -21,6 +22,7 @@ SDK_BASE	?= /opt/Espressif/ESP8266_SDK
 #Esptool.py path and port
 ESPTOOL		?= esptool.py
 ESPPORT		?= /dev/ttyUSB0
+ESPBAUD		?= 115200
 
 # name for the target project
 TARGET		= app
@@ -102,7 +104,7 @@ $1/%.o: %.c
 	$(Q) $(CC) $(INCDIR) $(MODULE_INCDIR) $(EXTRA_INCDIR) $(SDK_INCDIR) $(CFLAGS)  -c $$< -o $$@
 endef
 
-.PHONY: all checkdirs clean
+.PHONY: all checkdirs flash clean
 
 all: checkdirs $(TARGET_OUT) $(FW_FILE_1) $(FW_FILE_2)
 
@@ -131,7 +133,7 @@ firmware:
 	$(Q) mkdir -p $@
 
 flash: firmware/0x00000.bin firmware/0x40000.bin
-	-$(ESPTOOL) --port $(ESPPORT) write_flash 0x00000 firmware/0x00000.bin 0x40000 firmware/0x40000.bin
+	-$(ESPTOOL) --baud $(ESPBAUD) --port $(ESPPORT) write_flash 0x00000 firmware/0x00000.bin 0x40000 firmware/0x40000.bin
 
 clean:
 	$(Q) rm -f $(APP_AR)

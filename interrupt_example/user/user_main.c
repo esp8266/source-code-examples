@@ -51,6 +51,9 @@ void ICACHE_FLASH_ATTR  user_init()
                 "   3.- Connect GPIO0 to ground to increment count edge\r\n"
 );
 
+// Initialize the GPIO subsystem.
+   gpio_init();
+
 // =================================================
 // Initialize GPIO2 and GPIO0 as GPIO
 // =================================================

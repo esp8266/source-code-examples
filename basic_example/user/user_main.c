@@ -10,6 +10,9 @@
 os_event_t    user_procTaskQueue[user_procTaskQueueLen];
 static void loop(os_event_t *events);
 
+// Required by SDK_v1.1.0
+void user_rf_pre_init (void){}
+
 //Main code function
 static void ICACHE_FLASH_ATTR
 loop(os_event_t *events)

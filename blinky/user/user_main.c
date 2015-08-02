@@ -11,6 +11,8 @@ static void user_procTask(os_event_t *events);
 
 static volatile os_timer_t some_timer;
 
+// Required by SDK_v1.1.0
+void user_rf_pre_init (void){}
 
 void some_timerfunc(void *arg)
 {

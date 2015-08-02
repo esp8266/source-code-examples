@@ -9,6 +9,14 @@
 os_event_t    user_procTaskQueue[user_procTaskQueueLen];
 static void loop(os_event_t *events);
 
+// Check SDK version. (PIN_PULLDWN_EN was removed in SDK_v1.1.0)
+#ifndef PIN_PULLDWN_EN
+    // GPIO_PIN_INTR_ANYEGDE was renamed
+    #define GPIO_PIN_INTR_ANYEGDE GPIO_PIN_INTR_ANYEDGE
+#endif
+
+// Required by SDK_v1.1.0
+void user_rf_pre_init (void){}
 
 // variable modified indirectly by interrupt handler
 volatile int whatyouwant;
@@ -86,7 +94,6 @@ void ICACHE_FLASH_ATTR  user_init()
 //  PIN_PULLDWN_EN(PIN_NAME)
 
     PIN_PULLUP_DIS(PERIPHS_IO_MUX_GPIO0_U);
-    PIN_PULLDWN_DIS(PERIPHS_IO_MUX_GPIO0_U);
     PIN_PULLUP_EN(PERIPHS_IO_MUX_GPIO2_U);
 
 //

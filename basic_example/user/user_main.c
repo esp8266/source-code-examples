@@ -30,6 +30,8 @@ user_init()
     //Set station mode
     wifi_set_opmode( 0x1 );
 
+    // Don't check the mac addr
+    stationConf.bssid_set = 0; 
     //Set ap settings
     os_memcpy(&stationConf.ssid, ssid, 32);
     os_memcpy(&stationConf.password, password, 64);

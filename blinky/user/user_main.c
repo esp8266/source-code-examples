@@ -1,20 +1,16 @@
-#include "ets_sys.h"
-#include "osapi.h"
-#include "gpio.h"
-#include "os_type.h"
-#include "user_config.h"
+#include "ets_sys.h"        // Event signals and task priorities
+#include "osapi.h"          // General ESP functions (timers, strings, memory)
+#include "gpio.h"           // Interacting and configuring pins
+#include "os_type.h"        // Mapping to ETS structures
+#include "user_config.h"    // Any user-defined functions. Alway required.
 
-#define user_procTaskPrio        0
-#define user_procTaskQueueLen    1
-os_event_t    user_procTaskQueue[user_procTaskQueueLen];
-static void user_procTask(os_event_t *events);
-
+// create os_timer that's not optimized by the compiler and is file-wide in scope
 static volatile os_timer_t some_timer;
 
-
+// Function to drive GPIO pin high or low
 void some_timerfunc(void *arg)
 {
-    //Do blinky stuff
+    // If GPIO_2 is set HIGH, set it LOW
     if (GPIO_REG_READ(GPIO_OUT_ADDRESS) & BIT2)
     {
         //Set GPIO2 to LOW
@@ -27,15 +23,8 @@ void some_timerfunc(void *arg)
     }
 }
 
-//Do nothing function
-static void ICACHE_FLASH_ATTR
-user_procTask(os_event_t *events)
-{
-    os_delay_us(10);
-}
-
-//Init function 
-void ICACHE_FLASH_ATTR
+// Init function 
+void ICACHE_FLASH_ATTR  // Store function in flash memory instead of RAM
 user_init()
 {
     // Initialize the GPIO subsystem.
@@ -58,7 +47,4 @@ user_init()
     //1000 is the fire time in ms
     //0 for once and 1 for repeating
     os_timer_arm(&some_timer, 1000, 1);
-    
-    //Start os task
-    system_os_task(user_procTask, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
 }

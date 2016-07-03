@@ -35,6 +35,9 @@ user_init()
     os_memcpy(&stationConf.password, password, 64);
     wifi_station_set_config(&stationConf);
 
+    // default appears to be a non-standard 74880 baud
+    uart_div_modify(0, UART_CLK_FREQ / 115200);
+
     //Start os task
     system_os_task(loop, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
 

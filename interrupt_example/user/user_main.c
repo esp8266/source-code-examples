@@ -130,7 +130,7 @@ void ICACHE_FLASH_ATTR  user_init()
 // enable interrupt for his GPIO
 //     GPIO_PIN_INTR_... defined in gpio.h
 
-     gpio_pin_intr_state_set(GPIO_ID_PIN(0), GPIO_PIN_INTR_ANYEGDE);
+     gpio_pin_intr_state_set(GPIO_ID_PIN(0), GPIO_PIN_INTR_ANYEDGE);
 
      ETS_GPIO_INTR_ENABLE();
 
